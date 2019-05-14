@@ -112,6 +112,7 @@ const {
   nativeOculusVR,
   nativeOculusMobileVr,
   nativeMl,
+  nativeZed,
   nativeBrowser,
   nativeWindow,
 } = require('./native-bindings');
@@ -970,6 +971,14 @@ const _normalizeUrl = utils._makeNormalizeUrl(options.baseUrl);
     monitors: new MonitorManager(),
     inspect: util.inspect,
   };
+  let zedContext = null;
+  window.zed = {
+    requestMeshing(fn) {
+      zedContext = new nativeZed();
+      const context = GlobalContext.contexts.find(context => context.canvas.ownerDocument === this.ownerDocument);
+      zedContext.RequestPresent(context, fn);
+    },
+  };
   window.settings = {
     setSetting(key, value) {
       args[key] = value;
@@ -1326,6 +1335,10 @@ const _normalizeUrl = utils._makeNormalizeUrl(options.baseUrl);
     };
     
     _updateLocalXr();
+
+    if (zedContext) {
+      zedContext.WaitGetPoses();
+    }
 
     const childPromises = _renderChildren();
     _renderLocal();
