@@ -976,6 +976,7 @@ const _normalizeUrl = utils._makeNormalizeUrl(options.baseUrl);
     requestMeshing(fn) {
       zedContext = new nativeZed();
       zedContext.RequestPresent(fn);
+      return zedContext.emitter = new EventEmitter();
     },
   };
   window.settings = {
@@ -1336,7 +1337,10 @@ const _normalizeUrl = utils._makeNormalizeUrl(options.baseUrl);
     _updateLocalXr();
 
     if (zedContext) {
-      zedContext.WaitGetPoses();
+      const meshes = zedContext.WaitGetPoses();
+      if (meshes) {
+        zedContext.emitter.emit('meshes', meshes);
+      }
     }
 
     const childPromises = _renderChildren();
