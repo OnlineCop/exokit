@@ -1691,12 +1691,12 @@ window.addEventListener('click', () => {
 });
 window.addEventListener('mousedown', e => {
   if (window.document.pointerLockElement) {
-    fakeDisplay.gamepads[1].buttons[1].pressed = true;
+    navigator.getGamepads()[1].buttons[1].pressed = true;
   }
 });
 window.addEventListener('mouseup', e => {
   if (window.document.pointerLockElement) {
-    fakeDisplay.gamepads[1].buttons[1].pressed = false;
+    navigator.getGamepads()[1].buttons[1].pressed = false;
   }
 });
 window.addEventListener('mousemove', e => {
@@ -1778,7 +1778,7 @@ window.addEventListener('keydown', e => {
         break;
       }
       case 69: { // E
-        fakeDisplay.gamepads[1].buttons[2].pressed = true;
+        navigator.getGamepads()[1].buttons[2].pressed = true;
         break;
       }
       case 32: { // space
@@ -1824,7 +1824,7 @@ window.addEventListener('keyup', e => {
         break;
       }
       case 69: { // E
-        fakeDisplay.gamepads[1].buttons[2].pressed = false;
+        navigator.getGamepads()[1].buttons[2].pressed = false;
         break;
       }
       case 32: { // space
